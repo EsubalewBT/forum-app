@@ -42,7 +42,6 @@ const createtable = async () => {
 
     await db.query(createAnswersTable);
     console.log(" Answers table created");
-    console.log(" All tables created successfully!");
   } catch (error) {
     console.error(" Error creating tables:", error.message);
   }
