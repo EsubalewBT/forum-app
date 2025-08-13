@@ -1,5 +1,5 @@
 const db = require("../config/db");
-
+const logger = require("../config/logger");
 const createUserTable = `
 CREATE TABLE IF NOT EXISTS users (
     userid INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,15 +36,15 @@ CREATE TABLE IF NOT EXISTS answers (
 const createtable = async () => {
   try {
     await db.query(createUserTable);
-    console.log(" Users table created");
+    logger.info(" Users table created");
 
     await db.query(createQuestionsTable);
-    console.log(" Questions table created");
+    logger.info(" Questions table created");
 
     await db.query(createAnswersTable);
-    console.log(" Answers table created");
+    logger.info(" Answers table created");
   } catch (error) {
-    console.error(" Error creating tables:", error.message);
+    logger.error(" Error creating tables:", error.message);
   }
 };
 
