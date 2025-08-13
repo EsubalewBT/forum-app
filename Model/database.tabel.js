@@ -1,4 +1,5 @@
 const db = require("../config/db");
+
 const createUserTable = `
 CREATE TABLE IF NOT EXISTS users (
     userid INT AUTO_INCREMENT PRIMARY KEY,

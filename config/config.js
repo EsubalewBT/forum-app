@@ -10,4 +10,5 @@ module.exports = {
   password: envVars.password,
   database: envVars.database,
   PORT: envVars.PORT,
+  env: envVars.NODE_ENV,
 };

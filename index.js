@@ -3,11 +3,10 @@ const app = express();
 const config = require("./config/config");
 const { createtable } = require("./Model/database.tabel");
 const Router = require("./Route/user.route");
+const { errorHandler } = require("./middleware/error.handler");
 app.use(express.json());
-app.get("/", async (req, res) => {
-  res.send("Welcome to the My Forum App!");
-});
 app.use(Router);
+app.use(errorHandler);
 
 app.listen(config.PORT, async () => {
   console.log(` Server is running on http://localhost:${config.PORT}`);
