@@ -11,6 +11,20 @@ const registerUser = async (userData) => {
   const userId = await createUser(userData);
   return userId;
 };
+
+const loginUser = async (email, password) => {
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw new ApiError(401, "Invalid email or password");
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new ApiError(401, "Invalid email or password");
+  }
+  return user;
+};
+
 module.exports = {
   registerUser,
+  loginUser,
 };
