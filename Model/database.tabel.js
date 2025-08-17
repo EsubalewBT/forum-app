@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS answers (
     FOREIGN KEY (questionid) REFERENCES questions(questionid)
 );
 `;
+const createTokenTable = `
+CREATE TABLE IF NOT EXISTS tokens (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  token TEXT NOT NULL,
+  expires DATETIME NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(userid) ON DELETE CASCADE
+)`;
 
 const createtable = async () => {
   try {
@@ -43,6 +51,8 @@ const createtable = async () => {
 
     await db.query(createAnswersTable);
     logger.info(" Answers table created");
+    await db.query(createTokenTable);
+    logger.info(" Tokens table created");
   } catch (error) {
     logger.error(" Error creating tables:", error.message);
   }

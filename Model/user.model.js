@@ -1,10 +1,14 @@
 const db = require("../config/db");
 
-const findUserByEmail = async (email, username) => {
+const findUserByEmailandUsername = async (email, username) => {
   const [rows] = await db.query(
     "SELECT * FROM users WHERE email = ? OR username = ?",
     [email, username]
   );
+  return rows[0];
+};
+const findUserByEmail = async (email) => {
+  const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
   return rows[0];
 };
 const createUser = async (userData) => {
@@ -16,6 +20,7 @@ const createUser = async (userData) => {
   return result.insertId;
 };
 module.exports = {
+  findUserByEmailandUsername,
   findUserByEmail,
   createUser,
 };

@@ -11,4 +11,6 @@ module.exports = {
   database: envVars.database,
   PORT: envVars.PORT,
   env: envVars.NODE_ENV,
+  JWT_SECRET: envVars.JWT_SECRET,
+  JWT_REFRESH_SECRET: envVars.JWT_REFRESH_SECRET,
 };

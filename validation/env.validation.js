@@ -9,6 +9,10 @@ const envVarsSchema = joi
       .string()
       .valid("development", "production")
       .default("development"),
+    JWT_SECRET: joi.string().min(16).required(),
+    JWT_REFRESH_SECRET: joi.string().min(16).required(),
+    JWT_ISSUER: joi.string().default("my-forum-app"),
+    JWT_AUDIENCE: joi.string().default("my-forum-users"),
   })
   .unknown();
 module.exports = envVarsSchema;

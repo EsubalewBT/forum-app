@@ -2,6 +2,7 @@ const http = require("http");
 const config = require("./config/config");
 const { createtable } = require("./Model/database.tabel");
 const app = require("./server");
+require("./cron/pruneTokens");
 const httpServer = http.createServer(app);
 const logger = require("./config/logger");
 
