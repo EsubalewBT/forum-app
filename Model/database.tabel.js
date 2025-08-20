@@ -13,23 +13,25 @@ CREATE TABLE IF NOT EXISTS users (
 const createQuestionsTable = `
 CREATE TABLE IF NOT EXISTS questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    questionid VARCHAR(255) NOT NULL UNIQUE,
     userid INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     tag VARCHAR(255),
-    FOREIGN KEY (userid) REFERENCES users(userid)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE
 );
 `;
 const createAnswersTable = `
 CREATE TABLE IF NOT EXISTS answers (
-    answerid VARCHAR(255) NOT NULL UNIQUE,
+   id INT AUTO_INCREMENT PRIMARY KEY,
     userid INT NOT NULL,
-    questionid VARCHAR(255) NOT NULL,
+    questionid INT NOT NULL,
     answer TEXT NOT NULL,
-    PRIMARY KEY (answerid),
-    FOREIGN KEY (userid) REFERENCES users(userid),
-    FOREIGN KEY (questionid) REFERENCES questions(questionid)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE,
+    FOREIGN KEY (questionid) REFERENCES questions(id) ON DELETE CASCADE
 );
 `;
 const createTokenTable = `
