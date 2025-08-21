@@ -13,5 +13,3 @@ router.get("/questions/:questionId/answers", listAnswers);
 router.delete("/answers/:id", auth, deleteAnswer);
 
 module.exports = router;
-
-// questions/5/answers
