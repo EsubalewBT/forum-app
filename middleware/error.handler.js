@@ -1,6 +1,7 @@
 const config = require("../config/config");
 const ApiError = require("../utils/ApiError");
-const httpStatus = require("http-status");
+const _httpStatus = require("http-status");
+const httpStatus = _httpStatus.default || _httpStatus;
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
