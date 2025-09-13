@@ -128,7 +128,7 @@ const Login = () => {
             <div className="space-y-6">
               <div className="text-orange-500 font-medium">About</div>
               <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-                Evangadi Networks Q&A
+                THINK | THANK Q&A
               </h1>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
