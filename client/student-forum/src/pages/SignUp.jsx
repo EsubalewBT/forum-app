@@ -7,6 +7,9 @@ import Api from '../Utils/Api';
 const SignUp = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -27,26 +30,42 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data={
-        email:formData.email,
-        firstname:formData.firstName,
-        lastname:formData.lastName,
-        username:formData.userName,
-        password:formData.password
-    }
-    Api.post('/register',data).then(res=>{
-        console.log(res.data);
-         setFormData({
-        email: '',
-        firstName: '',
-        lastName: '',
-        userName: '',
-        password: ''
+    setSubmitting(true);
+    setSuccessMessage('');
+    setErrorMessage('');
+
+    const data = {
+      email: formData.email,
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+      username: formData.userName,
+      password: formData.password,
+    };
+
+    Api.post('/register', data)
+      .then((res) => {
+        const msg = res?.data?.message || 'Account created successfully';
+        setSuccessMessage(msg);
+        setErrorMessage('');
+
+        // Reset form fields
+        setFormData({ email: '', firstName: '', lastName: '', userName: '', password: '' });
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error('Signup failed:', err);
+        const resp = err?.response?.data;
+        const msg = (typeof resp === 'string' ? resp : resp?.message) || err.message || 'Signup failed';
+        setErrorMessage(msg);
+        setSuccessMessage('');
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
-      navigate('/login');
-    }).catch(err=>{
-        console.error(err);
-    })
   };
 
   return (
@@ -148,10 +167,19 @@ const SignUp = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+                    disabled={submitting}
+                    className={`w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 ${submitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
                   >
-                    Agree and Join
+                    {submitting ? 'Submitting…' : 'Agree and Join'}
                   </button>
+
+                  {/* Inline messages under the button */}
+                  {successMessage && (
+                    <p className="text-green-600 text-center mt-3">{successMessage}</p>
+                  )}
+                  {errorMessage && (
+                    <p className="text-red-600 text-center mt-3">{errorMessage}</p>
+                  )}
 
                   {/* Terms */}
                   <p className="text-center text-sm text-gray-600 mt-4">
