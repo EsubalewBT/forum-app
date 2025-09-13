@@ -12,7 +12,7 @@ const createAnswer = async (userId, questionId, answer) => {
 // Get all answers for a specific question
 const getAnswersByQuestionId = async (questionId) => {
   const [rows] = await db.query(
-    "SELECT * FROM answers WHERE questionid = ? ORDER BY created_at ASC",
+    "SELECT * FROM answers WHERE questionid = ? ORDER BY id ASC",
     [questionId]
   );
   return rows;

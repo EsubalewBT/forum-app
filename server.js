@@ -8,8 +8,28 @@ const ApiError = require("./utils/ApiError");
 const _httpStatus = require("http-status");
 const httpStatus = _httpStatus.default || _httpStatus;
 const morgan = require("./config/morgan");
+const cors = require("cors");
 
 const app = express();
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      const allowed = new Set(
+        [
+          process.env.FRONTEND_URL,
+          "http://localhost:5173",
+          "http://localhost:5174",
+        ].filter(Boolean)
+      );
+      if (!origin || allowed.has(origin)) return cb(null, true);
+      return cb(null, false);
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(morgan.successHandler);
 app.use(morgan.errorHandler);
 app.use(express.json());

@@ -11,9 +11,8 @@ const createQuestion = async (userId, title, description, tag) => {
 
 // Get all questions
 const getAllQuestions = async () => {
-  const [rows] = await db.query(
-    "SELECT * FROM questions ORDER BY created_at DESC"
-  );
+  // Order by created_at if present, otherwise fallback to id DESC
+  const [rows] = await db.query("SELECT * FROM questions ORDER BY id DESC");
   return rows;
 };
 
@@ -29,8 +28,8 @@ const findQuestionsByTitle = async (title, partial = false) => {
   if (!title) return partial ? [] : undefined;
   const param = partial ? `%${title}%` : title;
   const sql = partial
-    ? "SELECT * FROM questions WHERE title LIKE ? ORDER BY created_at DESC"
-    : "SELECT * FROM questions WHERE title = ? ORDER BY created_at DESC";
+    ? "SELECT * FROM questions WHERE title LIKE ? ORDER BY id DESC"
+    : "SELECT * FROM questions WHERE title = ? ORDER BY id DESC";
   const [rows] = await db.query(sql, [param]);
   return partial ? rows : rows[0];
 };
